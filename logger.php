@@ -10,9 +10,7 @@ class logger extends unit {
     private $insert;
 
     public function start() {
-        $this->db->query(
-            "create table if not exists log (timestamp text, level tinyint, message text, sender text)"
-        );
+        $this->db->ensureTable("log (timestamp text, level tinyint, message text, sender text)");
 
         $this->insert = $this->db->prepare(
             "insert into log (timestamp, level, message, sender) values (datetime('now'), ?, ?, ?)"

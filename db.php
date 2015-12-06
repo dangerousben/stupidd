@@ -18,7 +18,11 @@ class db extends unit {
         unset($this->pdo);
     }
 
-    function __call($name, array $args) {
+    public function ensureTable($def) {
+        $this->query("create table if not exists $def");
+    }
+
+    public function __call($name, array $args) {
         return call_user_func_array([$this->pdo, $name], $args);
     }
 }
