@@ -1,25 +1,16 @@
 <?php
 
 abstract class unit {
-    const STOPPED = "STOPPED";
-    const STARTED = "STARTED";
+    private $manager;
 
-    private $state = self::STOPPED;
-
-    final public function start() {
-        if ($this->state != self::STARTED) {
-            $this->doStart();
-            $this->state = self::STARTED;
-        }
+    public function __construct(manager $manager) {
+        $this->manager = $manager;
     }
 
-    final public function stop() {
-        if ($this->state != self::STOPPED) {
-            $this->doStop();
-            $this->state = self::STOPPED;
-        }
+    public function __get($name) {  // shouldn't really be public but apparently it has to be
+        return $this->manager->$name;
     }
 
-    protected function doStart() {}
-    protected function doStop() {}
+    public function start() {}
+    public function stop() {}
 }

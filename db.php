@@ -1,24 +1,20 @@
 <?php
 
 class db extends unit {
-    private $dsn;
     private $pdo;
 
-    public function __construct(home_dir $homeDir) {
+    public function start() {
         // Not entirely convinced that sqlite has the grunt needed to power an init
         // system but we haven't figured out a way to bring up postgres before init yet
-        $this->dsn = "sqlite:$homeDir/stupid.sqlite3";
-    }
-
-    public function doStart() {
-        $this->pdo = new PDO($this->dsn);
+        $dsn = "sqlite:{$this->home_dir}/stupid.sqlite3";
+        $this->pdo = new PDO($dsn);
 
         // Admittedly the default value of SILENT makes for a quieter life but let's
         // roll with this for now
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function doStop() {
+    public function stop() {
         unset($this->pdo);
     }
 

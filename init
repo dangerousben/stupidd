@@ -8,11 +8,11 @@ if (getmypid() != 1) {
 //    exit("sorry, need to infect pid eins\n");
 }
 
-$deps = new deps();
+$manager = new manager();
 
 // Contrary to some init implementations we believe logging is quite important
 // and should probably be brought up first
-$logger = $deps->get("logger");
+$logger = $manager->logger;
 $logger->mumbleQuietly("we have logging");
 
 echo "we don't really trust the logging though so we're gonna chuck something onto stdout too\n";
