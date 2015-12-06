@@ -16,9 +16,12 @@ if (getmypid() != 1) {
 // 0777 is probably fine right?  I don't understand these weird octal numbers
 mkdir(STUPID_DIR, 0777, true);
 
-$db = db::start();
+$deps = new deps();
+$deps->instantiate("db");
 
 // Contrary to some init implementations we believe logging is quite important
 // and should probably be brought up first
-$logger = logger::start($db);
+$logger = $deps->instantiate("logger");
 $logger->mumbleQuietly("we have logging");
+
+echo "we don't really trust the logging though so we're gonna chuck something onto stdout too\n";

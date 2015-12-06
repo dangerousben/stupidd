@@ -1,22 +1,22 @@
 <?php
 
-class db {
-    static function start() {
+class db extends unit {
+    private $pdo;
+
+    public function __construct() {}
+
+    public function doStart() {
         // Not entirely convinced that sqlite has the grunt needed to power an init
         // system but we haven't figured out a way to bring up postgres before init yet
-        $pdo = new PDO("sqlite:" . STUPID_DIR . "/stupid.sqlite3");
+        $this->pdo = new PDO("sqlite:" . STUPID_DIR . "/stupid.sqlite3");
 
         // Admittedly the default value of SILENT makes for a quieter life but let's
         // roll with this for now
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        return new db($pdo);
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    private $pdo;
-
-    function __construct(PDO $pdo) {
-        $this->pdo = $pdo;
+    public function doStop() {
+        unset($this->pdo);
     }
 
     function __call($name, array $args) {
