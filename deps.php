@@ -11,23 +11,27 @@ class deps {
         }
 
         $rfClass = new ReflectionClass($class);
+        $rfConstructor = $rfClass->getConstructor();
 
         $args = [];
 
-        foreach($rfClass->getConstructor()->getParameters() as $param) {
-            $depClass = $param->getClass();
-            if (!$depClass || !$depClass->isSubclassOf("unit")) {
-                throw new Exception(
-                    "Sorry, again for entirely arbitrary reasons all your dependencies must be units - everything is a unit!"
-                );
-            }
+        if ($rfConstructor) {
 
-            $name = $depClass->getName();
+            foreach($rfConstructor->getParameters() as $param) {
+                $depClass = $param->getClass();
+                if (!$depClass || !$depClass->isSubclassOf("unit")) {
+                    throw new Exception(
+                        "Sorry, again for entirely arbitrary reasons all your dependencies must be units - everything is a unit!"
+                    );
+                }
 
-            if (isset($this->deps[$name])) {
-                $args[] = $this->deps[$name];
-            } else {
-                $args[] = $this->instantiate($name);
+                $name = $depClass->getName();
+
+                if (isset($this->deps[$name])) {
+                    $args[] = $this->deps[$name];
+                } else {
+                    $args[] = $this->instantiate($name);
+                }
             }
         }
 
