@@ -16,14 +16,7 @@ if (getmypid() != 1) {
 // 0777 is probably fine right?  I don't understand these weird octal numbers
 mkdir(STUPID_DIR, 0777, true);
 
-// Not entirely convinced that sqlite has the grunt needed to power an init
-// system but we haven't figured out a way to bring up postgres before init yet
-$db = new PDO("sqlite:" . STUPID_DIR . "/stupid.sqlite3");
-
-// Admittedly the default value of SILENT makes for a quieter life but let's
-// roll with this for now
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+$db = db::start();
 
 // Contrary to some init implementations we believe logging is quite important
 // and should probably be brought up first

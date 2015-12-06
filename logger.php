@@ -9,7 +9,7 @@ class logger extends unit {
 
     private $insert;
 
-    public static function start(PDO $db) {
+    public static function start(db $db) {
         $db->query("create table if not exists log (timestamp text, level tinyint, message text, sender text)");
         $insert = $db->prepare("insert into log (timestamp, level, message, sender) values (datetime('now'), ?, ?, ?)");
 
