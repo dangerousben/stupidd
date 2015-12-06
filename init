@@ -1,0 +1,31 @@
+#!/usr/bin/php
+
+<?php
+
+spl_autoload_register();
+
+// This is where we're gonna stash all our crap because there aren't enough
+// entries in a linux root fs already and besides we're a special snowflake
+//define("STUPID_DIR", "/stupid");
+define("STUPID_DIR", "./stupid");
+
+if (getmypid() != 1) {
+//    exit("sorry, need to infect pid eins\n");
+}
+
+// 0777 is probably fine right?  I don't understand these weird octal numbers
+mkdir(STUPID_DIR, 0777, true);
+
+// Not entirely convinced that sqlite has the grunt needed to power an init
+// system but we haven't figured out a way to bring up postgres before init yet
+$db = new PDO("sqlite:" . STUPID_DIR . "/stupid.sqlite3");
+
+// Admittedly the default value of SILENT makes for a quieter life but let's
+// roll with this for now
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+
+// Contrary to some init implementations we believe logging is quite important
+// and should probably be brought up first
+$logger = logger::start($db);
+$logger->mumbleQuietly("we have logging");
