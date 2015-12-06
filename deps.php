@@ -13,7 +13,6 @@ class deps {
         $rfClass = new ReflectionClass($class);
 
         $args = [];
-        $missingArgs = [];
 
         foreach($rfClass->getConstructor()->getParameters() as $param) {
             $depClass = $param->getClass();
@@ -28,15 +27,8 @@ class deps {
             if (isset($this->deps[$name])) {
                 $args[] = $this->deps[$name];
             } else {
-                $missingArgs[] = $name;
+                $args[] = $this->instantiate($name);
             }
-        }
-
-        if ($missingArgs) {
-            throw new Exception(
-                "Failed to find the following dependencies for $class: " .
-                implode(", ", $missingArgs)
-            );
         }
 
         foreach($args as $arg) $arg->start();

@@ -9,8 +9,6 @@ if (getmypid() != 1) {
 }
 
 $deps = new deps();
-$deps->instantiate("home_dir");
-$deps->instantiate("db");
 
 // Contrary to some init implementations we believe logging is quite important
 // and should probably be brought up first
