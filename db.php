@@ -23,6 +23,6 @@ class db extends unit {
     }
 
     function __call($name, array $args) {
-        return call_user_func_array(array($this->pdo, $name), $args);
+        return call_user_func_array([$this->pdo, $name], $args);
     }
 }

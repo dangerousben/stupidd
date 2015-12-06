@@ -40,6 +40,6 @@ class logger extends unit {
                 break;
         }
 
-        $this->insert->execute(array($level, $message, $sender));
+        $this->insert->execute([$level, $message, $sender]);
     }
 }
