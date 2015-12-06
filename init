@@ -2,6 +2,7 @@
 
 <?php
 
+set_include_path("./lib:./lib/unit");
 spl_autoload_register();
 
 if (getmypid() != 1) {
