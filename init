@@ -4,19 +4,12 @@
 
 spl_autoload_register();
 
-// This is where we're gonna stash all our crap because there aren't enough
-// entries in a linux root fs already and besides we're a special snowflake
-//define("STUPID_DIR", "/stupid");
-define("STUPID_DIR", "./stupid");
-
 if (getmypid() != 1) {
 //    exit("sorry, need to infect pid eins\n");
 }
 
-// 0777 is probably fine right?  I don't understand these weird octal numbers
-mkdir(STUPID_DIR, 0777, true);
-
 $deps = new deps();
+$deps->instantiate("home_dir");
 $deps->instantiate("db");
 
 // Contrary to some init implementations we believe logging is quite important
